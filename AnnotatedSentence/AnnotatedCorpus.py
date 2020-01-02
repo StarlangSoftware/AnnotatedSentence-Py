@@ -2,6 +2,7 @@ from Corpus.Corpus import Corpus
 import os
 
 from AnnotatedSentence.AnnotatedSentence import AnnotatedSentence
+from AnnotatedSentence.AnnotatedWord import AnnotatedWord
 
 
 class AnnotatedCorpus(Corpus):
@@ -25,5 +26,61 @@ class AnnotatedCorpus(Corpus):
                 fileName = os.path.join(root, file)
                 if pattern is None or pattern in fileName:
                     f = open(fileName, "r")
-                    sentence = AnnotatedSentence(f)
+                    sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
+
+    """
+    The method traverses all words in all sentences and prints the words which do not have a morphological analysis.
+    """
+    def checkMorphologicalAnalysis(self):
+        for i in range(self.sentenceCount()):
+            sentence = self.getSentence(i)
+            if isinstance(sentence, AnnotatedSentence):
+                for j in range(sentence.wordCount()):
+                    word = sentence.getWord(j)
+                    if isinstance(word, AnnotatedWord):
+                        if word.getParse() is None:
+                            print("Morphological Analysis does not exist for sentence " + sentence.getFileName())
+                            break
+
+    """
+    The method traverses all words in all sentences and prints the words which do not have named entity annotation.
+    """
+    def checkNer(self):
+        for i in range(self.sentenceCount()):
+            sentence = self.getSentence(i)
+            if isinstance(sentence, AnnotatedSentence):
+                for j in range(sentence.wordCount()):
+                    word = sentence.getWord(j)
+                    if isinstance(word, AnnotatedWord):
+                        if word.getNamedEntityType() is None:
+                            print("NER annotation does not exist for sentence " + sentence.getFileName())
+                            break
+
+    """
+    The method traverses all words in all sentences and prints the words which do not have shallow parse annotation.
+    """
+    def checkShallowParse(self):
+        for i in range(self.sentenceCount()):
+            sentence = self.getSentence(i)
+            if isinstance(sentence, AnnotatedSentence):
+                for j in range(sentence.wordCount()):
+                    word = sentence.getWord(j)
+                    if isinstance(word, AnnotatedWord):
+                        if word.getShallowParse() is None:
+                            print("Shallow parse annotation does not exist for sentence " + sentence.getFileName())
+                            break
+
+    """
+    The method traverses all words in all sentences and prints the words which do not have sense annotation.
+    """
+    def checkSemantic(self):
+        for i in range(self.sentenceCount()):
+            sentence = self.getSentence(i)
+            if isinstance(sentence, AnnotatedSentence):
+                for j in range(sentence.wordCount()):
+                    word = sentence.getWord(j)
+                    if isinstance(word, AnnotatedWord):
+                        if word.getSemantic() is None:
+                            print("Semantic annotation does not exist for sentence " + sentence.getFileName())
+                            break

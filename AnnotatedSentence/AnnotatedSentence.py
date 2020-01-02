@@ -10,6 +10,9 @@ from AnnotatedSentence.AnnotatedWord import AnnotatedWord
 
 
 class AnnotatedSentence(Sentence):
+
+    __fileName: str
+
     """
     Converts a simple sentence to an annotated sentence
 
@@ -19,9 +22,11 @@ class AnnotatedSentence(Sentence):
         Simple sentence
     """
 
-    def __init__(self, fileOrStr):
+    def __init__(self, fileOrStr, fileName=None):
         self.words = []
         wordArray = []
+        if fileName is not None:
+            self.__fileName = fileName
         if isinstance(fileOrStr, TextIOWrapper):
             line = fileOrStr.readline()
             wordArray = line.rstrip().split(" ")
@@ -131,6 +136,17 @@ class AnnotatedSentence(Sentence):
             else:
                 data = word[count2].getName()
         return data
+
+    """
+    Returns file name of the sentence
+
+    RETURNS
+    -------
+    str
+        File name of the sentence
+    """
+    def getFileName(self) -> str:
+        return self.__fileName
 
     """
     Removes the i'th word from the sentence
