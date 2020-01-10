@@ -1,4 +1,5 @@
 from Corpus.WordFormat import WordFormat
+from DependencyParser.UniversalDependencyRelation import UniversalDependencyRelation
 from Dictionary.Word import Word
 from MorphologicalAnalysis.FsmParse import FsmParse
 from MorphologicalAnalysis.MetamorphicParse import MetamorphicParse
@@ -20,6 +21,7 @@ class AnnotatedWord(Word):
     __namedEntityType: NamedEntityType
     __argument: Argument
     __shallowParse: str
+    __universalDependency: UniversalDependencyRelation
 
     """
     Constructor for the AnnotatedWord class. Gets the word with its annotation layers as input and sets the
@@ -38,6 +40,7 @@ class AnnotatedWord(Word):
         self.__namedEntityType = None
         self.__argument = None
         self.__shallowParse = None
+        self.__universalDependency = None
         if layerType is None:
             splitLayers = re.compile("[{}]").split(word)
             for layer in splitLayers:
@@ -60,6 +63,9 @@ class AnnotatedWord(Word):
                     self.__argument = Argument(layerValue)
                 elif layerType == "shallowParse":
                     self.__shallowParse = layerValue
+                elif layerType == "universalDependency":
+                    values = layerValue.split("$")
+                    self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
         elif isinstance(layerType, NamedEntityType):
             super().__init__(word)
             self.__namedEntityType = layerType
@@ -100,6 +106,8 @@ class AnnotatedWord(Word):
             result = result + "{propbank=" + self.__argument.__str__() + "}"
         if self.__shallowParse is not None:
             result = result + "{shallowParse=" + self.__shallowParse + "}"
+        if self.__universalDependency is not None:
+            result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__() + "}"
         return result
 
     """
@@ -135,6 +143,9 @@ class AnnotatedWord(Word):
         elif viewLayerType == ViewLayerType.PROPBANK:
             if self.__argument is not None:
                 return self.__argument.__str__()
+        elif viewLayerType == ViewLayerType.DEPENDENCY:
+            if self.__universalDependency is not None:
+                return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
         else:
             return None
 
@@ -290,6 +301,30 @@ class AnnotatedWord(Word):
 
     def setShallowParse(self, parse: str):
         self.__shallowParse = parse
+
+    """
+    Returns the universal dependency layer of the word.
+    
+    RETURNS
+    -------
+    UniversalDependencyRelation
+        Universal dependency relation of the word.
+    """
+    def getUniversalDependency(self) -> UniversalDependencyRelation:
+        return self.__universalDependency
+
+    """
+    Sets the universal dependency layer of the word.
+
+    PARAMETERS
+    ----------
+    to : int
+        to Word related to.
+    dependencyType : str
+        type of dependency the word is related to.
+    """
+    def setUniversalDependency(self, to: int, dependencyType: str):
+        self.__universalDependency = UniversalDependencyRelation(to, dependencyType)
 
     def getFormattedString(self, wordFormat: WordFormat):
         if wordFormat == WordFormat.SURFACE:

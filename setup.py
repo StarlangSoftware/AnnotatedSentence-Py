@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.2',
+    version='1.0.3',
     packages=['AnnotatedSentence', 'AnnotatedSentence.AutoProcessor', 'AnnotatedSentence.AutoProcessor.AutoNER',
               'AnnotatedSentence.AutoProcessor.AutoArgument', 'AnnotatedSentence.AutoProcessor.AutoSemantic',
               'AnnotatedSentence.AutoProcessor.AutoPredicate', 'AnnotatedSentence.AutoProcessor.AutoDisambiguation'],
@@ -11,5 +11,5 @@ setup(
     author='olcaytaner',
     author_email='olcaytaner@isikun.edu.tr',
     description='Annotated Sentence Processing Library',
-    install_requires=['NlpToolkit-WordNet', 'NlpToolkit-NamedEntityRecognition', 'NlpToolkit-PropBank']
+    install_requires=['NlpToolkit-WordNet', 'NlpToolkit-NamedEntityRecognition', 'NlpToolkit-PropBank', 'NlpToolkit-DependencyParser']
 )
