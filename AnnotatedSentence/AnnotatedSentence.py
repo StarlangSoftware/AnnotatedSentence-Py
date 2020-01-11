@@ -1,5 +1,4 @@
 from io import TextIOWrapper
-from typing import TextIO
 
 from Corpus.Sentence import Sentence
 from MorphologicalAnalysis.FsmMorphologicalAnalyzer import FsmMorphologicalAnalyzer
@@ -22,19 +21,46 @@ class AnnotatedSentence(Sentence):
         Simple sentence
     """
 
-    def __init__(self, fileOrStr, fileName=None):
+    def __init__(self, fileOrStr=None, fileName=None):
         self.words = []
         wordArray = []
-        if fileName is not None:
-            self.__fileName = fileName
-        if isinstance(fileOrStr, TextIOWrapper):
-            line = fileOrStr.readline()
-            wordArray = line.rstrip().split(" ")
-        elif isinstance(self, str):
-            wordArray = fileOrStr.split(" ")
-        for word in wordArray:
-            if len(word) > 0:
-                self.words.append(AnnotatedWord(word))
+        if fileOrStr is not None:
+            if fileName is not None:
+                self.__fileName = fileName
+            if isinstance(fileOrStr, TextIOWrapper):
+                line = fileOrStr.readline()
+                wordArray = line.rstrip().split(" ")
+            elif isinstance(self, str):
+                wordArray = fileOrStr.split(" ")
+            for word in wordArray:
+                if len(word) > 0:
+                    self.words.append(AnnotatedWord(word))
+
+    """
+    The method constructs all possible shallow parse groups of a sentence.
+    
+    RETURNS
+    -------
+    list
+        Shallow parse groups of a sentence.
+    """
+    def getShallowParseGroups(self) -> list:
+        shallowParseGroups = []
+        previousWord = None
+        current = None
+        for word in self.words:
+            if isinstance(word, AnnotatedWord):
+                if previousWord is None:
+                    current = AnnotatedSentence()
+                else:
+                    if isinstance(previousWord, AnnotatedWord) and previousWord.getShallowParse() is not None \
+                            and previousWord.getShallowParse() != word.getShallowParse():
+                        shallowParseGroups.append(current)
+                        current = AnnotatedSentence()
+                current.addWord(word)
+                previousWord = word
+        shallowParseGroups.append(current)
+        return shallowParseGroups
 
     """
     The method checks all words in the sentence and returns true if at least one of the words is annotated with
