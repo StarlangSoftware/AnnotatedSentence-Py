@@ -25,7 +25,7 @@ class AnnotatedCorpus(Corpus):
             for file in files:
                 fileName = os.path.join(root, file)
                 if pattern is None or pattern in fileName:
-                    f = open(fileName, "r")
+                    f = open(fileName, "r", encoding='utf8')
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
 

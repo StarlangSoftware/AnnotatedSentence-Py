@@ -187,6 +187,12 @@ class AnnotatedSentence(Sentence):
         self.words.pop(index)
 
     """
+    Saves the current sentence.
+    """
+    def save(self):
+        self.writeToFile(self.__fileName)
+
+    """
     Creates a list of literal candidates for the i'th word in the sentence. It combines the results of
     1. All possible root forms of the i'th word in the sentence
     2. All possible 2-word expressions containing the i'th word in the sentence
