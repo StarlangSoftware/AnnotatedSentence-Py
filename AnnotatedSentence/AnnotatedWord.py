@@ -63,6 +63,8 @@ class AnnotatedWord(Word):
                     self.__argument = Argument(layerValue)
                 elif layerType == "shallowParse":
                     self.__shallowParse = layerValue
+                elif layerType == "semantics":
+                    self.__semantic = layerValue
                 elif layerType == "universalDependency":
                     values = layerValue.split("$")
                     self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
