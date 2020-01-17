@@ -18,6 +18,7 @@ class AnnotatedPhrase(Sentence):
         Tag of the phrase. Corresponds to the shallow parse or named entity tag.
     """
     def __init__(self, wordIndex: int, tag: str):
+        super().__init__()
         self.__wordIndex = wordIndex
         self.__tag = tag
 
