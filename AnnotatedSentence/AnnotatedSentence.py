@@ -5,6 +5,7 @@ from MorphologicalAnalysis.FsmMorphologicalAnalyzer import FsmMorphologicalAnaly
 from PropBank.FramesetList import FramesetList
 from WordNet.WordNet import WordNet
 
+from AnnotatedSentence.AnnotatedPhrase import AnnotatedPhrase
 from AnnotatedSentence.AnnotatedWord import AnnotatedWord
 
 
@@ -48,15 +49,16 @@ class AnnotatedSentence(Sentence):
         shallowParseGroups = []
         previousWord = None
         current = None
-        for word in self.words:
+        for i in range(self.wordCount()):
+            word = self.getWord(i)
             if isinstance(word, AnnotatedWord):
                 if previousWord is None:
-                    current = AnnotatedSentence()
+                    current = AnnotatedPhrase(i, word.getShallowParse())
                 else:
                     if isinstance(previousWord, AnnotatedWord) and previousWord.getShallowParse() is not None \
                             and previousWord.getShallowParse() != word.getShallowParse():
                         shallowParseGroups.append(current)
-                        current = AnnotatedSentence()
+                        current = AnnotatedPhrase(i, word.getShallowParse())
                 current.addWord(word)
                 previousWord = word
         shallowParseGroups.append(current)
