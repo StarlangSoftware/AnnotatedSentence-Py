@@ -1,5 +1,5 @@
 from Corpus.Corpus import Corpus
-import os
+import os, re
 
 from AnnotatedSentence.AnnotatedSentence import AnnotatedSentence
 from AnnotatedSentence.AnnotatedWord import AnnotatedWord
@@ -24,7 +24,7 @@ class AnnotatedCorpus(Corpus):
         for root, dirs, files in os.walk(folder):
             for file in files:
                 fileName = os.path.join(root, file)
-                if pattern is None or pattern in fileName:
+                if (pattern is None or pattern in fileName) and re.match("\\d+\\.", file):
                     f = open(fileName, "r", encoding='utf8')
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
