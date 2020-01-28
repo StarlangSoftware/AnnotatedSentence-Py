@@ -103,7 +103,7 @@ class AnnotatedWord(Word):
         if self.__semantic is not None:
             result = result + "{semantics=" + self.__semantic + "}"
         if self.__namedEntityType is not None:
-            result = result + "{namedEntity=" + self.__namedEntityType.__str__() + "}"
+            result = result + "{namedEntity=" + NamedEntityType.getNamedEntityString(self.__namedEntityType) + "}"
         if self.__argument is not None:
             result = result + "{propbank=" + self.__argument.__str__() + "}"
         if self.__shallowParse is not None:
