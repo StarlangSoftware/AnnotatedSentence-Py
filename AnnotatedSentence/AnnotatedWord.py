@@ -109,7 +109,8 @@ class AnnotatedWord(Word):
         if self.__shallowParse is not None:
             result = result + "{shallowParse=" + self.__shallowParse + "}"
         if self.__universalDependency is not None:
-            result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__() + "}"
+            result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + \
+                     self.__universalDependency.__str__() + "}"
         return result
 
     """

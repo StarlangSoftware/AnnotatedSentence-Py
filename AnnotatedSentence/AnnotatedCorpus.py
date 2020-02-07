@@ -1,5 +1,7 @@
+import os
+import re
+
 from Corpus.Corpus import Corpus
-import os, re
 
 from AnnotatedSentence.AnnotatedSentence import AnnotatedSentence
 from AnnotatedSentence.AnnotatedWord import AnnotatedWord
