@@ -9,19 +9,19 @@ from AnnotatedSentence.AnnotatedWord import AnnotatedWord
 
 class AnnotatedCorpus(Corpus):
 
-    """
-    A constructor of AnnotatedCorpus class which reads all AnnotatedSentence files with the file
-    name satisfying the given pattern inside the given folder. For each file inside that folder, the constructor
-    creates an AnnotatedSentence and puts in inside the list parseTrees.
-
-    PARAMETERS
-    ----------
-    folder : str
-        Folder where all sentences reside.
-    pattern : str
-        File pattern such as "." ".train" ".test".
-    """
     def __init__(self, folder: str, pattern: str = None):
+        """
+        A constructor of AnnotatedCorpus class which reads all AnnotatedSentence files with the file
+        name satisfying the given pattern inside the given folder. For each file inside that folder, the constructor
+        creates an AnnotatedSentence and puts in inside the list parseTrees.
+
+        PARAMETERS
+        ----------
+        folder : str
+            Folder where all sentences reside.
+        pattern : str
+            File pattern such as "." ".train" ".test".
+        """
         self.sentences = []
         for root, dirs, files in os.walk(folder):
             for file in files:
@@ -31,10 +31,10 @@ class AnnotatedCorpus(Corpus):
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
 
-    """
-    The method traverses all words in all sentences and prints the words which do not have a morphological analysis.
-    """
     def checkMorphologicalAnalysis(self):
+        """
+        The method traverses all words in all sentences and prints the words which do not have a morphological analysis.
+        """
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)
             if isinstance(sentence, AnnotatedSentence):
@@ -45,10 +45,10 @@ class AnnotatedCorpus(Corpus):
                             print("Morphological Analysis does not exist for sentence " + sentence.getFileName())
                             break
 
-    """
-    The method traverses all words in all sentences and prints the words which do not have named entity annotation.
-    """
     def checkNer(self):
+        """
+        The method traverses all words in all sentences and prints the words which do not have named entity annotation.
+        """
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)
             if isinstance(sentence, AnnotatedSentence):
@@ -59,10 +59,10 @@ class AnnotatedCorpus(Corpus):
                             print("NER annotation does not exist for sentence " + sentence.getFileName())
                             break
 
-    """
-    The method traverses all words in all sentences and prints the words which do not have shallow parse annotation.
-    """
     def checkShallowParse(self):
+        """
+        The method traverses all words in all sentences and prints the words which do not have shallow parse annotation.
+        """
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)
             if isinstance(sentence, AnnotatedSentence):
@@ -73,10 +73,10 @@ class AnnotatedCorpus(Corpus):
                             print("Shallow parse annotation does not exist for sentence " + sentence.getFileName())
                             break
 
-    """
-    The method traverses all words in all sentences and prints the words which do not have sense annotation.
-    """
     def checkSemantic(self):
+        """
+        The method traverses all words in all sentences and prints the words which do not have sense annotation.
+        """
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)
             if isinstance(sentence, AnnotatedSentence):

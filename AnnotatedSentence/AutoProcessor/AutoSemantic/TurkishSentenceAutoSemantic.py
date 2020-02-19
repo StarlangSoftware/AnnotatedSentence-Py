@@ -11,36 +11,36 @@ class TurkishAutoSemantic(SentenceAutoSemantic):
     __turkishWordNet: WordNet
     __fsm: FsmMorphologicalAnalyzer
 
-    """
-    Constructor for the {@link TurkishSentenceAutoSemantic} class. Gets the Turkish wordnet and Turkish fst based
-    morphological analyzer from the user and sets the corresponding attributes.
-
-    PARAMETERS
-    ----------
-    turkishWordNet : WordNet
-        Turkish wordnet
-    fsm : FsmMorphologicalAnalyzer
-        Turkish morphological analyzer
-    """
     def __init__(self, turkishWordNet: WordNet, fsm: FsmMorphologicalAnalyzer):
+        """
+        Constructor for the {@link TurkishSentenceAutoSemantic} class. Gets the Turkish wordnet and Turkish fst based
+        morphological analyzer from the user and sets the corresponding attributes.
+
+        PARAMETERS
+        ----------
+        turkishWordNet : WordNet
+            Turkish wordnet
+        fsm : FsmMorphologicalAnalyzer
+            Turkish morphological analyzer
+        """
         self.__turkishWordNet = turkishWordNet
         self.__fsm = fsm
 
-    """
-    The method checks
-    1. the previous two words and the current word; the previous, current and next word, current and the next
-    two words for a three word multiword expression that occurs in the Turkish wordnet.
-    2. the previous word and current word; current word and the next word for a two word multiword expression that
-    occurs in the Turkish wordnet.
-    3. the current word
-    if it has only one sense. If there is only one sense for that multiword expression or word; it sets that sense.
-
-    PARAMETERS
-    ----------
-    sentence : AnnotatedSentence 
-        The sentence for which word sense disambiguation will be determined automatically.
-    """
     def autoLabelSingleSemantics(self, sentence: AnnotatedSentence):
+        """
+        The method checks
+        1. the previous two words and the current word; the previous, current and next word, current and the next
+        two words for a three word multiword expression that occurs in the Turkish wordnet.
+        2. the previous word and current word; current word and the next word for a two word multiword expression that
+        occurs in the Turkish wordnet.
+        3. the current word
+        if it has only one sense. If there is only one sense for that multiword expression or word; it sets that sense.
+
+        PARAMETERS
+        ----------
+        sentence : AnnotatedSentence
+            The sentence for which word sense disambiguation will be determined automatically.
+        """
         for i in range(sentence.wordCount()):
             current = sentence.getWord(i)
             if i > 1:

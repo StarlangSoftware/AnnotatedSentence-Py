@@ -13,16 +13,15 @@ class AnnotatedSentence(Sentence):
 
     __fileName: str
 
-    """
-    Converts a simple sentence to an annotated sentence
-
-    PARAMETERS
-    ----------
-    fileOrStr : str
-        Simple sentence
-    """
-
     def __init__(self, fileOrStr=None, fileName=None):
+        """
+        Converts a simple sentence to an annotated sentence
+
+        PARAMETERS
+        ----------
+        fileOrStr : str
+            Simple sentence
+        """
         self.words = []
         wordArray = []
         if fileOrStr is not None:
@@ -37,15 +36,15 @@ class AnnotatedSentence(Sentence):
                 if len(word) > 0:
                     self.words.append(AnnotatedWord(word))
 
-    """
-    The method constructs all possible shallow parse groups of a sentence.
-    
-    RETURNS
-    -------
-    list
-        Shallow parse groups of a sentence.
-    """
     def getShallowParseGroups(self) -> list:
+        """
+        The method constructs all possible shallow parse groups of a sentence.
+
+        RETURNS
+        -------
+        list
+            Shallow parse groups of a sentence.
+        """
         shallowParseGroups = []
         previousWord = None
         current = None
@@ -64,17 +63,16 @@ class AnnotatedSentence(Sentence):
         shallowParseGroups.append(current)
         return shallowParseGroups
 
-    """
-    The method checks all words in the sentence and returns true if at least one of the words is annotated with
-    PREDICATE tag.
-
-    RETURNS
-    -------
-    bool
-        True if at least one of the words is annotated with PREDICATE tag; False otherwise.
-    """
-
     def containsPredicate(self) -> bool:
+        """
+        The method checks all words in the sentence and returns true if at least one of the words is annotated with
+        PREDICATE tag.
+
+        RETURNS
+        -------
+        bool
+            True if at least one of the words is annotated with PREDICATE tag; False otherwise.
+        """
         for word in self.words:
             if isinstance(word, AnnotatedWord):
                 if word.getArgument() is not None and word.getArgument().getArgumentType() == "PREDICATE":
@@ -91,23 +89,22 @@ class AnnotatedSentence(Sentence):
                     modified = True
         return modified
 
-    """
-    The method returns all possible words, which is
-    1. Verb
-    2. Its semantic tag is assigned
-    3. A frameset exists for that semantic tag
-
-    PARAMETERS
-    ----------
-    framesetList : FramesetList
-        Frameset list that contains all frames for Turkish
-        
-    RETURNS
-    -------
-    A list of words, which are verbs, semantic tags assigned, and framesetlist assigned for that tag.
-    """
-
     def predicateCandidates(self, framesetList: FramesetList) -> list:
+        """
+        The method returns all possible words, which is
+        1. Verb
+        2. Its semantic tag is assigned
+        3. A frameset exists for that semantic tag
+
+        PARAMETERS
+        ----------
+        framesetList : FramesetList
+            Frameset list that contains all frames for Turkish
+
+        RETURNS
+        -------
+        A list of words, which are verbs, semantic tags assigned, and framesetlist assigned for that tag.
+        """
         candidateList = []
         for word in self.words:
             if isinstance(word, AnnotatedWord):
@@ -125,21 +122,20 @@ class AnnotatedSentence(Sentence):
                         candidateList.append(annotatedWord)
         return candidateList
 
-    """
-    Returns the nearest predicate to the index'th word in the sentence.
-
-    PARAMETERS
-    ----------
-    index : int
-        Word index
-        
-    RETURNS
-    -------
-    str
-        The nearest predicate to the index'th word in the sentence.
-    """
-
     def getPredicate(self, index: int) -> str:
+        """
+        Returns the nearest predicate to the index'th word in the sentence.
+
+        PARAMETERS
+        ----------
+        index : int
+            Word index
+
+        RETURNS
+        -------
+        str
+            The nearest predicate to the index'th word in the sentence.
+        """
         count1 = 0
         count2 = 0
         data = ""
@@ -165,57 +161,55 @@ class AnnotatedSentence(Sentence):
                 data = word[count2].getName()
         return data
 
-    """
-    Returns file name of the sentence
-
-    RETURNS
-    -------
-    str
-        File name of the sentence
-    """
     def getFileName(self) -> str:
+        """
+        Returns file name of the sentence
+
+        RETURNS
+        -------
+        str
+            File name of the sentence
+        """
         return self.__fileName
 
-    """
-    Removes the i'th word from the sentence
-
-    PARAMETERS
-    ----------
-    index : int
-        Word index
-    """
-
     def removeWord(self, index: int):
+        """
+        Removes the i'th word from the sentence
+
+        PARAMETERS
+        ----------
+        index : int
+            Word index
+        """
         self.words.pop(index)
 
-    """
-    Saves the current sentence.
-    """
     def save(self):
+        """
+        Saves the current sentence.
+        """
         self.writeToFile(self.__fileName)
 
-    """
-    Creates a list of literal candidates for the i'th word in the sentence. It combines the results of
-    1. All possible root forms of the i'th word in the sentence
-    2. All possible 2-word expressions containing the i'th word in the sentence
-    3. All possible 3-word expressions containing the i'th word in the sentence
-
-    PARAMETERS
-    ----------
-    wordNet : WordNet
-        Turkish wordnet
-    fsm : FsmMorphologicalAnalyzer
-        Turkish morphological analyzer
-    wordIndex : int
-        Word index
-        
-    RETURNS
-    -------
-    list
-        List of literal candidates containing all possible root forms and multiword expressions.
-    """
-
     def constructLiterals(self, wordNet: WordNet, fsm: FsmMorphologicalAnalyzer, wordIndex: int) -> list:
+        """
+        Creates a list of literal candidates for the i'th word in the sentence. It combines the results of
+        1. All possible root forms of the i'th word in the sentence
+        2. All possible 2-word expressions containing the i'th word in the sentence
+        3. All possible 3-word expressions containing the i'th word in the sentence
+
+        PARAMETERS
+        ----------
+        wordNet : WordNet
+            Turkish wordnet
+        fsm : FsmMorphologicalAnalyzer
+            Turkish morphological analyzer
+        wordIndex : int
+            Word index
+
+        RETURNS
+        -------
+        list
+            List of literal candidates containing all possible root forms and multiword expressions.
+        """
         word = self.getWord(wordIndex)
         possibleLiterals = []
         if isinstance(word, AnnotatedWord):
@@ -242,27 +236,27 @@ class AnnotatedSentence(Sentence):
                                                                        firstSucceedingWord.getMetamorphicParse()))
         return possibleLiterals
 
-    """
-    Creates a list of synset candidates for the i'th word in the sentence. It combines the results of
-    1. All possible synsets containing the i'th word in the sentence
-    2. All possible synsets containing 2-word expressions, which contains the i'th word in the sentence
-    3. All possible synsets containing 3-word expressions, which contains the i'th word in the sentence
-
-    PARAMETERS
-    ----------
-    wordNet : WordNet
-        Turkish wordnet
-    fsm : FsmMorphologicalAnalyzer
-        Turkish morphological analyzer
-    wordIndex : int
-        Word index
-        
-    RETURNS
-    -------
-    list
-        List of synset candidates containing all possible root forms and multiword expressions.
-    """
     def constructSynSets(self, wordNet: WordNet, fsm: FsmMorphologicalAnalyzer, wordIndex: int) -> list:
+        """
+        Creates a list of synset candidates for the i'th word in the sentence. It combines the results of
+        1. All possible synsets containing the i'th word in the sentence
+        2. All possible synsets containing 2-word expressions, which contains the i'th word in the sentence
+        3. All possible synsets containing 3-word expressions, which contains the i'th word in the sentence
+
+        PARAMETERS
+        ----------
+        wordNet : WordNet
+            Turkish wordnet
+        fsm : FsmMorphologicalAnalyzer
+            Turkish morphological analyzer
+        wordIndex : int
+            Word index
+
+        RETURNS
+        -------
+        list
+            List of synset candidates containing all possible root forms and multiword expressions.
+        """
         word = self.getWord(wordIndex)
         possibleSynSets = []
         if isinstance(word, AnnotatedWord):

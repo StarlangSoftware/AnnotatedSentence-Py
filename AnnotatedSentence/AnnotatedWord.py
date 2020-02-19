@@ -23,17 +23,16 @@ class AnnotatedWord(Word):
     __shallowParse: str
     __universalDependency: UniversalDependencyRelation
 
-    """
-    Constructor for the AnnotatedWord class. Gets the word with its annotation layers as input and sets the
-    corresponding layers.
-
-    PARAMETERS
-    ----------
-    word : str
-        Input word with annotation layers
-    """
-
     def __init__(self, word: str, layerType=None):
+        """
+        Constructor for the AnnotatedWord class. Gets the word with its annotation layers as input and sets the
+        corresponding layers.
+
+        PARAMETERS
+        ----------
+        word : str
+            Input word with annotation layers
+        """
         self.__parse = None
         self.__metamorphicParse = None
         self.__semantic = None
@@ -84,17 +83,16 @@ class AnnotatedWord(Word):
             self.setMetamorphicParse(layerType.withList())
             self.__argument = Argument("NONE")
 
-    """
-    Converts an AnnotatedWord to string. For each annotation layer, the method puts a left brace, layer name,
-    equal sign and layer value finishing with right brace.
-
-    RETURNS
-    -------
-    str
-        String form of the AnnotatedWord.
-    """
-
     def __str__(self) -> str:
+        """
+        Converts an AnnotatedWord to string. For each annotation layer, the method puts a left brace, layer name,
+        equal sign and layer value finishing with right brace.
+
+        RETURNS
+        -------
+        str
+            String form of the AnnotatedWord.
+        """
         result = "{turkish=" + self.name + "}"
         if self.__parse is not None:
             result = result + "{morphologicalAnalysis=" + self.__parse.__str__() + "}"
@@ -113,21 +111,20 @@ class AnnotatedWord(Word):
                      self.__universalDependency.__str__() + "}"
         return result
 
-    """
-    Returns the value of a given layer.
-
-    PARAMETERS
-    ----------
-    viewLayerType : ViewLayerType
-        Layer for which the value questioned.
-        
-    RETURNS
-    -------
-    str
-        The value of the given layer.
-    """
-
     def getLayerInfo(self, viewLayerType: ViewLayerType) -> str:
+        """
+        Returns the value of a given layer.
+
+        PARAMETERS
+        ----------
+        viewLayerType : ViewLayerType
+            Layer for which the value questioned.
+
+        RETURNS
+        -------
+        str
+            The value of the given layer.
+        """
         if viewLayerType == ViewLayerType.INFLECTIONAL_GROUP:
             if self.__parse is not None:
                 return self.__parse.__str__()
@@ -152,181 +149,169 @@ class AnnotatedWord(Word):
         else:
             return None
 
-    """
-    Returns the morphological parse layer of the word.
-    
-    RETURNS
-    -------
-    MorphologicalParse
-        The morphological parse of the word.
-    """
-
     def getParse(self) -> MorphologicalParse:
+        """
+        Returns the morphological parse layer of the word.
+
+        RETURNS
+        -------
+        MorphologicalParse
+            The morphological parse of the word.
+        """
         return self.__parse
 
-    """
-    Sets the morphological parse layer of the word.
-    
-    PARAMETERS
-    ----------
-    parseString : str
-        The new morphological parse of the word in string form.
-    """
-
     def setParse(self, parseString: MorphologicalParse):
+        """
+        Sets the morphological parse layer of the word.
+
+        PARAMETERS
+        ----------
+        parseString : str
+            The new morphological parse of the word in string form.
+        """
         if parseString is not None:
             self.__parse = MorphologicalParse(parseString)
         else:
             self.__parse = None
 
-    """
-    Returns the metamorphic parse layer of the word.
-    
-    RETURNS
-    -------
-    MetamorphicParse
-        The metamorphic parse of the word.
-    """
-
     def getMetamorphicParse(self) -> MetamorphicParse:
+        """
+        Returns the metamorphic parse layer of the word.
+
+        RETURNS
+        -------
+        MetamorphicParse
+            The metamorphic parse of the word.
+        """
         return self.__metamorphicParse
 
-    """
-    Sets the metamorphic parse layer of the word.
-
-    PARAMETERS
-    ----------
-    parseString : str
-        The new metamorphic parse of the word in string form.
-    """
-
     def setMetamorphicParse(self, parseString: str):
+        """
+        Sets the metamorphic parse layer of the word.
+
+        PARAMETERS
+        ----------
+        parseString : str
+            The new metamorphic parse of the word in string form.
+        """
         self.__metamorphicParse = MetamorphicParse(parseString)
 
-    """
-    Returns the semantic layer of the word.
-
-    RETURNS
-    -------
-    str
-        Sense id of the word.
-    """
-
     def getSemantic(self) -> str:
+        """
+        Returns the semantic layer of the word.
+
+        RETURNS
+        -------
+        str
+            Sense id of the word.
+        """
         return self.__semantic
 
-    """
-    Sets the semantic layer of the word.
-
-    PARAMETERS
-    ----------
-    semantic : str
-        New sense id of the word.
-    """
-
     def setSemantic(self, semantic: str):
+        """
+        Sets the semantic layer of the word.
+
+        PARAMETERS
+        ----------
+        semantic : str
+            New sense id of the word.
+        """
         self.__semantic = semantic
 
-    """
-    Returns the named entity layer of the word.
-
-    RETURNS
-    -------
-    NamedEntityType
-        Named entity tag of the word.
-    """
-
     def getNamedEntityType(self) -> NamedEntityType:
+        """
+        Returns the named entity layer of the word.
+
+        RETURNS
+        -------
+        NamedEntityType
+            Named entity tag of the word.
+        """
         return self.__namedEntityType
 
-    """
-    Sets the named entity layer of the word.
-
-    PARAMETERS
-    ----------
-    namedEntity : str
-        New named entity tag of the word.
-    """
-
     def setNamedEntityType(self, namedEntity: str):
+        """
+        Sets the named entity layer of the word.
+
+        PARAMETERS
+        ----------
+        namedEntity : str
+            New named entity tag of the word.
+        """
         if namedEntity is not None:
             self.__namedEntityType = NamedEntityType.getNamedEntityType(namedEntity)
         else:
             self.__namedEntityType = None
 
-    """
-    Returns the semantic role layer of the word.
-    
-    RETURNS
-    -------
-    Argument
-        Semantic role tag of the word.
-    """
-
     def getArgument(self) -> Argument:
+        """
+        Returns the semantic role layer of the word.
+
+        RETURNS
+        -------
+        Argument
+            Semantic role tag of the word.
+        """
         return self.__argument
 
-    """
-    Sets the semantic role layer of the word.
-
-    PARAMETERS
-    ----------
-    argument : Argument
-        New semantic role tag of the word.
-    """
-
     def setArgument(self, argument: str):
+        """
+        Sets the semantic role layer of the word.
+
+        PARAMETERS
+        ----------
+        argument : Argument
+            New semantic role tag of the word.
+        """
         if self.__argument is not None:
             self.__argument = Argument(argument)
         else:
             self.__argument = None
 
-    """
-    Returns the shallow parse layer of the word.
-
-    RETURNS
-    -------
-    str
-        Shallow parse tag of the word.
-    """
-
     def getShallowParse(self) -> str:
+        """
+        Returns the shallow parse layer of the word.
+
+        RETURNS
+        -------
+        str
+            Shallow parse tag of the word.
+        """
         return self.__shallowParse
 
-    """
-    Sets the shallow parse layer of the word.
-
-    PARAMETERS
-    ----------
-    parse : str
-        New shallow parse tag of the word.
-    """
-
     def setShallowParse(self, parse: str):
+        """
+        Sets the shallow parse layer of the word.
+
+        PARAMETERS
+        ----------
+        parse : str
+            New shallow parse tag of the word.
+        """
         self.__shallowParse = parse
 
-    """
-    Returns the universal dependency layer of the word.
-    
-    RETURNS
-    -------
-    UniversalDependencyRelation
-        Universal dependency relation of the word.
-    """
     def getUniversalDependency(self) -> UniversalDependencyRelation:
+        """
+        Returns the universal dependency layer of the word.
+
+        RETURNS
+        -------
+        UniversalDependencyRelation
+            Universal dependency relation of the word.
+        """
         return self.__universalDependency
 
-    """
-    Sets the universal dependency layer of the word.
-
-    PARAMETERS
-    ----------
-    to : int
-        to Word related to.
-    dependencyType : str
-        type of dependency the word is related to.
-    """
     def setUniversalDependency(self, to: int, dependencyType: str):
+        """
+        Sets the universal dependency layer of the word.
+
+        PARAMETERS
+        ----------
+        to : int
+            to Word related to.
+        dependencyType : str
+            type of dependency the word is related to.
+        """
         self.__universalDependency = UniversalDependencyRelation(to, dependencyType)
 
     def getFormattedString(self, wordFormat: WordFormat):
