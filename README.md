@@ -1,4 +1,6 @@
 # AnnotatedSentence
+You can also see either [Java](https://github.com/olcaytaner/AnnotatedSentence) 
+or [C++](https://github.com/olcaytaner/AnnotatedSentence-CPP) repository.
 
 ## Data Format
 
