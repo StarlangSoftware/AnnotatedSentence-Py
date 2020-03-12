@@ -1,5 +1,7 @@
 # AnnotatedSentence
 
+This resource allows for matching of Turkish words or expressions with their corresponding entries within the Turkish dictionary and the Turkish PropBank, morphological analysis, named entity recognition and shallow parsing.
+
 For Developers
 ============
 You can also see either [Java](https://github.com/olcaytaner/AnnotatedSentence) 
