@@ -77,61 +77,57 @@ Detailed Description
 
 İşaretlenmiş corpusu yüklemek için
 
-	AnnotatedCorpus(File folder, String pattern)
-	a = AnnotatedCorpus(new File("/Turkish-Phrase"), ".train")
-
-	AnnotatedCorpus(File folder)
-	a = AnnotatedCorpus(new File("/Turkish-Phrase"))
+	AnnotatedCorpus(self, folder: str, pattern: str = None)
+	a = AnnotatedCorpus("/Turkish-Phrase", ".train")
+	b = AnnotatedCorpus(new File("/Turkish-Phrase"))
 
 Bir AnnotatedCorpus'daki tüm cümlelere erişmek için
 
-	for (int i = 0; i < a.sentenceCount(); i++){
-		AnnotatedSentence annotatedSentence = (AnnotatedSentence) a.getSentence(i);
+	for i in range(a.sentenceCount()):
+		annotatedSentence = a.getSentence(i)
 		....
-	}
 
 ## AnnotatedSentence
 
 Bir AnnotatedSentence'daki tüm kelimelere ulaşmak için de
 
-	for (int j = 0; j < annotatedSentence.wordCount(); j++){
-		AnnotatedWord annotatedWord = (AnnotatedWord) annotatedSentence.getWord(j);
+	for j in range(annotatedSentence.wordCount()):
+		annotatedWord = annotatedSentence.getWord(j)
 		...
-	}
 
 ## AnnotatedWord
 
 İşaretlenmiş bir kelime AnnotatedWord sınıfında tutulur. İşaretlenmiş kelimenin morfolojik
 analizi
 
-	MorphologicalParse getParse()
+	getParse(self) -> MorphologicalParse
 
 İşaretlenmiş kelimenin anlamı
 
-	String getSemantic()
+	getSemantic(self) -> str
 
 İşaretlenmiş kelimenin NER anotasyonu
 
-	NamedEntityType getNamedEntityType()
+	getNamedEntityType(self) -> NamedEntityType
 
 İşaretlenmiş kelimenin özne, dolaylı tümleç, vs. shallow parse tagı
 
-	String getShallowParse()
+	getShallowParse(self) -> str
 
 İşaretlenmiş kelimenin dependency anotasyonu
 
-	UniversalDependencyRelation getUniversalDependency()
+	getUniversalDependency(self) -> UniversalDependencyRelation
 	
 ## Automatic Annotation
 
 Bir cümlenin Predicatelarını otomatik olarak belirlemek için
 
-	TurkishSentenceAutoPredicate(FramesetList framesetList)
+	TurkishSentenceAutoPredicate(self, framesetList: FramesetList)
 
 sınıfı kullanılır. Örneğin,
 
-	a = TurkishSentenceAutoPredicate(new FramesetList());
-	a.autoPredicate(sentence);
+	a = TurkishSentenceAutoPredicate(FramesetList())
+	a.autoPredicate(sentence)
 
 ile sentence cümlesinin predicateları otomatik olarak işaretlenir.
 
@@ -141,22 +137,10 @@ Bir cümlenin argümanlarını otomatik olarak belirlemek için
 
 sınıfı kullanılır. Örneğin,
 
-	a = TurkishSentenceAutoArgument();
-	a.autoArgument(sentence);
+	a = TurkishSentenceAutoArgument()
+	a.autoArgument(sentence)
 
 ile sentence cümlesinin argümanları otomatik olarak işaretlenir.
-
-Bir cümlede otomatik olarak morfolojik belirsizlik gidermek için
-
-	TurkishSentenceAutoDisambiguator(RootWordStatistics rootWordStatistics)
-	TurkishSentenceAutoDisambiguator(FsmMorphologicalAnalyzer fsm, RootWordStatistics rootWordStatistics)
-								  
-sınıfı kullanılır. Örneğin,
-
-	a = TurkishSentenceAutoDisambiguator(new RootWordStatistics());
-	a.autoDisambiguate(sentence);
-
-ile sentence cümlesinin morfolojik belirsizlik gidermesi otomatik olarak yapılır.
 
 Bir cümlede adlandırılmış varlık tanıma yapmak için
 
@@ -164,8 +148,8 @@ Bir cümlede adlandırılmış varlık tanıma yapmak için
 
 sınıfı kullanılır. Örneğin,
 
-	a = TurkishSentenceAutoNER();
-	a.autoNER(sentence);
+	a = TurkishSentenceAutoNER()
+	a.autoNER(sentence)
 
 ile sentence cümlesinde varlık tanıma otomatik olarak yapılır.
 
@@ -175,7 +159,7 @@ Bir cümlede anlamsal işaretleme için
 
 sınıfı kullanılır. Örneğin,
 
-	a = TurkishSentenceAutoSemantic();
-	a.autoSemantic(sentence);
+	a = TurkishSentenceAutoSemantic()
+	a.autoSemantic(sentence)
 
 ile sentence cümlesinde anlamsal işaretleme otomatik olarak yapılır.
