@@ -183,6 +183,32 @@ class AnnotatedSentence(Sentence):
         """
         self.words.pop(index)
 
+    def toStems(self) -> str:
+        """
+        The toStems method returns an accumulated string of each word's stems in words {@link ArrayList}.
+        If the parse of the word does not exist, the method adds the surfaceform to the resulting string.
+
+        RETURNS
+        -------
+        str
+             String result which has all the stems of each item in words {@link ArrayList}.
+        """
+        if len(self.words) > 0:
+            annotatedWord = self.words[0]
+            if annotatedWord.getParse() is not None:
+                result = annotatedWord.getParse().getWord().getName()
+            else:
+                result = annotatedWord.getName()
+            for i in range(1, len(self.words)):
+                annotatedWord = self.words[i]
+                if annotatedWord.getParse() is not None:
+                    result = result + " " + annotatedWord.getParse().getWord().getName()
+                else:
+                    result = result + " " + annotatedWord.getName()
+            return result
+        else:
+            return ""
+
     def save(self):
         """
         Saves the current sentence.
