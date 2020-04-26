@@ -4,8 +4,9 @@ This resource allows for matching of Turkish words or expressions with their cor
 
 For Developers
 ============
-You can also see either [Java](https://github.com/olcaytaner/AnnotatedSentence) 
-or [C++](https://github.com/olcaytaner/AnnotatedSentence-CPP) repository.
+
+You can also see [Java](https://github.com/starlangsoftware/AnnotatedSentence), [C++](https://github.com/starlangsoftware/AnnotatedSentence-CPP), or [C#](https://github.com/starlangsoftware/AnnotatedSentence-CS) repository.
+
 ## Requirements
 
 * [Python 3.7 or higher](#python)
