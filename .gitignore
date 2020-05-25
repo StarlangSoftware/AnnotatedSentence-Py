@@ -3,3 +3,9 @@
 /bin/
 /dist/
 /lib/python3.7/site-packages/
+AnnotatedSentence/__pycache__/__init__.cpython-37.pyc
+AnnotatedSentence/__pycache__/AnnotatedCorpus.cpython-37.pyc
+AnnotatedSentence/__pycache__/AnnotatedPhrase.cpython-37.pyc
+AnnotatedSentence/__pycache__/AnnotatedSentence.cpython-37.pyc
+AnnotatedSentence/__pycache__/AnnotatedWord.cpython-37.pyc
+AnnotatedSentence/__pycache__/ViewLayerType.cpython-37.pyc
