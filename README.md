@@ -33,7 +33,7 @@ Use Git for cloning the code to your local or below line for Ubuntu:
 
 A directory called AnnotatedSentence will be created. Or you can use below link for exploring the code:
 
-	git clone https://github.com/olcaytaner/AnnotatedSentence-Py.git
+	git clone https://github.com/starlangsoftware/AnnotatedSentence-Py.git
 
 ## Open project with Pycharm IDE
 
@@ -44,13 +44,6 @@ Steps for opening the cloned project:
 * Choose `AnnotatedSentence-Py` file
 * Select open as project option
 * Couple of seconds, dependencies will be downloaded. 
-
-
-## Compile
-
-**From IDE**
-
-After being done with the downloading and Maven indexing, select **Build Project** option from **Build** menu. After compilation process, user can run AnnotatedSentence-Py.
 
 
 ## Data Format
@@ -80,7 +73,7 @@ Detailed Description
 
 	AnnotatedCorpus(self, folder: str, pattern: str = None)
 	a = AnnotatedCorpus("/Turkish-Phrase", ".train")
-	b = AnnotatedCorpus(new File("/Turkish-Phrase"))
+	b = AnnotatedCorpus("/Turkish-Phrase")
 
 Bir AnnotatedCorpus'daki tüm cümlelere erişmek için
 
