@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.17',
+    version='1.0.19',
     packages=['AnnotatedSentence', 'AnnotatedSentence.AutoProcessor', 'AnnotatedSentence.AutoProcessor.AutoNER',
               'AnnotatedSentence.AutoProcessor.AutoArgument', 'AnnotatedSentence.AutoProcessor.AutoSemantic',
               'AnnotatedSentence.AutoProcessor.AutoPredicate', 'AnnotatedSentence.AutoProcessor.AutoDisambiguation'],

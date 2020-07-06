@@ -19,7 +19,7 @@ class AnnotatedSentence(Sentence):
 
         PARAMETERS
         ----------
-        fileOrStr : str
+        fileOrStr
             Simple sentence
         """
         self.words = []
