@@ -1,5 +1,5 @@
 from Corpus.WordFormat import WordFormat
-from DependencyParser.UniversalDependencyRelation import UniversalDependencyRelation
+from DependencyParser.Universal.UniversalDependencyRelation import UniversalDependencyRelation
 from Dictionary.Word import Word
 from MorphologicalAnalysis.FsmParse import FsmParse
 from MorphologicalAnalysis.MetamorphicParse import MetamorphicParse
