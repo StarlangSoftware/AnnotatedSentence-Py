@@ -31,6 +31,14 @@ class AnnotatedCorpus(Corpus):
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
 
+    def exportUniversalDependencyFormat(self, outputFileName: str):
+        file = open(outputFileName, "w")
+        for i in range(self.sentenceCount()):
+            sentence = self.getSentence(i)
+            if isinstance(sentence, AnnotatedSentence):
+                file.write(sentence.getUniversalDependencyFormat())
+        file.close()
+
     def checkMorphologicalAnalysis(self):
         """
         The method traverses all words in all sentences and prints the words which do not have a morphological analysis.
