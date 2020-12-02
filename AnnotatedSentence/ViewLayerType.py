@@ -22,3 +22,4 @@ class ViewLayerType(Enum):
     SHALLOW_PARSE = auto()
     ENGLISH_PROPBANK = auto()
     ENGLISH_SEMANTICS = auto()
+    FRAMENET = auto()

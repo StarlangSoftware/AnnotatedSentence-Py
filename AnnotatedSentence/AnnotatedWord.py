@@ -1,6 +1,7 @@
 from Corpus.WordFormat import WordFormat
 from DependencyParser.Universal.UniversalDependencyRelation import UniversalDependencyRelation
 from Dictionary.Word import Word
+from FrameNet.FrameElement import FrameElement
 from MorphologicalAnalysis.FsmParse import FsmParse
 from MorphologicalAnalysis.MetamorphicParse import MetamorphicParse
 from MorphologicalAnalysis.MorphologicalParse import MorphologicalParse
@@ -20,6 +21,7 @@ class AnnotatedWord(Word):
     __semantic: str
     __namedEntityType: NamedEntityType
     __argument: Argument
+    __frameElement: FrameElement
     __shallowParse: str
     __universalDependency: UniversalDependencyRelation
 
@@ -38,6 +40,7 @@ class AnnotatedWord(Word):
         self.__semantic = None
         self.__namedEntityType = None
         self.__argument = None
+        self.__frameElement = None
         self.__shallowParse = None
         self.__universalDependency = None
         if layerType is None:
@@ -60,6 +63,8 @@ class AnnotatedWord(Word):
                     self.__namedEntityType = NamedEntityType.getNamedEntityType(layerValue)
                 elif layerType == "propbank":
                     self.__argument = Argument(layerValue)
+                elif layerType == "framenet":
+                    self.__frameElement = FrameElement(layerValue)
                 elif layerType == "shallowParse":
                     self.__shallowParse = layerValue
                 elif layerType == "semantics":
@@ -104,6 +109,8 @@ class AnnotatedWord(Word):
             result = result + "{namedEntity=" + NamedEntityType.getNamedEntityString(self.__namedEntityType) + "}"
         if self.__argument is not None:
             result = result + "{propbank=" + self.__argument.__str__() + "}"
+        if self.__frameElement is not None:
+            result = result + "{framenet=" + self.__frameElement.__str__() + "}"
         if self.__shallowParse is not None:
             result = result + "{shallowParse=" + self.__shallowParse + "}"
         if self.__universalDependency is not None:
@@ -143,6 +150,9 @@ class AnnotatedWord(Word):
         elif viewLayerType == ViewLayerType.PROPBANK:
             if self.__argument is not None:
                 return self.__argument.__str__()
+        elif viewLayerType == ViewLayerType.FRAMENET:
+            if self.__frameElement is not None:
+                return self.__frameElement.__str__()
         elif viewLayerType == ViewLayerType.DEPENDENCY:
             if self.__universalDependency is not None:
                 return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
@@ -267,6 +277,31 @@ class AnnotatedWord(Word):
             self.__argument = Argument(argument)
         else:
             self.__argument = None
+
+    def getFrameElement(self) -> FrameElement:
+        """
+        Returns the framenet layer of the word.
+
+        RETURNS
+        -------
+        FrameElement
+            Framenet tag of the word.
+        """
+        return self.__frameElement
+
+    def setFrameElement(self, frameElement: str):
+        """
+        Sets the framenet layer of the word.
+
+        PARAMETERS
+        ----------
+        frameElement : str
+            New framenet tag of the word.
+        """
+        if self.__frameElement is not None:
+            self.__frameElement = Argument(frameElement)
+        else:
+            self.__frameElement = None
 
     def getShallowParse(self) -> str:
         """

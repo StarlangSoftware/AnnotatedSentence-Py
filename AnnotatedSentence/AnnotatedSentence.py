@@ -1,6 +1,7 @@
 from io import TextIOWrapper
 
 from Corpus.Sentence import Sentence
+from FrameNet.FrameNet import FrameNet
 from MorphologicalAnalysis.FsmMorphologicalAnalyzer import FsmMorphologicalAnalyzer
 from PropBank.FramesetList import FramesetList
 from WordNet.WordNet import WordNet
@@ -87,6 +88,11 @@ class AnnotatedSentence(Sentence):
                         word.getArgument().getId() == previousId:
                     word.setArgument(word.getArgument().getArgumentType() + "$" + currentId)
                     modified = True
+                if word.getFrameElement() is not None and word.getFrameElement().getId() is not None and \
+                    word.getFrameElement().getId() == previousId:
+                    word.setFrameElement(word.getFrameElement().getFrameElementType() + "$" + \
+                                         word.getFrameElement().getFrame() + "$" + currentId)
+                    modified = True
         return modified
 
     def predicateCandidates(self, framesetList: FramesetList) -> list:
@@ -110,6 +116,39 @@ class AnnotatedSentence(Sentence):
             if isinstance(word, AnnotatedWord):
                 if word.getParse() is not None and word.getParse().isVerb() and word.getSemantic() is not None \
                         and framesetList.frameExists(word.getSemantic()):
+                    candidateList.append(word)
+        for i in range(2):
+            for j in range(len(self.words) - i - 1):
+                annotatedWord = self.words[j]
+                nextAnnotatedWord = self.words[j + 1]
+                if isinstance(annotatedWord, AnnotatedWord) and isinstance(nextAnnotatedWord, AnnotatedWord):
+                    if annotatedWord not in candidateList and nextAnnotatedWord in candidateList \
+                            and annotatedWord.getSemantic() is not None \
+                            and annotatedWord.getSemantic() == nextAnnotatedWord.getSemantic():
+                        candidateList.append(annotatedWord)
+        return candidateList
+
+    def predicateFrameCandidates(self, frameNet: FrameNet) -> list:
+        """
+        The method returns all possible words, which is
+        1. Verb
+        2. Its semantic tag is assigned
+        3. A lexicalUnit exists for that semantic tag
+
+        PARAMETERS
+        ----------
+        frameNet : FrameNet
+            FrameNet that contains all frames for Turkish
+
+        RETURNS
+        -------
+        A list of words, which are verbs, semantic tags assigned, and frame assigned for that tag.
+        """
+        candidateList = []
+        for word in self.words:
+            if isinstance(word, AnnotatedWord):
+                if word.getParse() is not None and word.getParse().isVerb() and word.getSemantic() is not None \
+                        and frameNet.lexicalUnitExists(word.getSemantic()):
                     candidateList.append(word)
         for i in range(2):
             for j in range(len(self.words) - i - 1):
