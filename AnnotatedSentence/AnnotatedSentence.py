@@ -254,7 +254,7 @@ class AnnotatedSentence(Sentence):
         """
         self.writeToFile(self.__fileName)
 
-    def getUniversalDependencyFormat(self, path = None) -> str:
+    def getUniversalDependencyFormat(self, path: str = None) -> str:
         if path is None:
             result = "# sent_id = " + self.getFileName() + "\n" + "# text = " + self.toString() + "\n"
         else:
