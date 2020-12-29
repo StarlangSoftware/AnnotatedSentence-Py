@@ -31,12 +31,12 @@ class AnnotatedCorpus(Corpus):
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
 
-    def exportUniversalDependencyFormat(self, outputFileName: str):
+    def exportUniversalDependencyFormat(self, outputFileName: str, path: str = None):
         file = open(outputFileName, "w")
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)
             if isinstance(sentence, AnnotatedSentence):
-                file.write(sentence.getUniversalDependencyFormat())
+                file.write(sentence.getUniversalDependencyFormat(path))
         file.close()
 
     def checkMorphologicalAnalysis(self):

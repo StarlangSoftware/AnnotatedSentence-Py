@@ -254,8 +254,11 @@ class AnnotatedSentence(Sentence):
         """
         self.writeToFile(self.__fileName)
 
-    def getUniversalDependencyFormat(self) -> str:
-        result = "# sent_id = " + self.getFileName() + "\n" + "# text = " + self.toString() + "\n"
+    def getUniversalDependencyFormat(self, path = None) -> str:
+        if path is None:
+            result = "# sent_id = " + self.getFileName() + "\n" + "# text = " + self.toString() + "\n"
+        else:
+            result = "# sent_id = " + path + self.getFileName() + "\n" + "# text = " + self.toString() + "\n"
         for i in range(self.wordCount()):
             word = self.getWord(i)
             if isinstance(word, AnnotatedWord):
