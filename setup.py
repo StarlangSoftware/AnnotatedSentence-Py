@@ -2,10 +2,8 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.21',
-    packages=['AnnotatedSentence', 'AnnotatedSentence.AutoProcessor', 'AnnotatedSentence.AutoProcessor.AutoNER',
-              'AnnotatedSentence.AutoProcessor.AutoArgument', 'AnnotatedSentence.AutoProcessor.AutoSemantic',
-              'AnnotatedSentence.AutoProcessor.AutoPredicate', 'AnnotatedSentence.AutoProcessor.AutoDisambiguation'],
+    version='1.0.22',
+    packages=['AnnotatedSentence'],
     url='https://github.com/olcaytaner/AnnotatedSentence-Py',
     license='',
     author='olcaytaner',
