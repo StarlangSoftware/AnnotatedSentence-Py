@@ -40,3 +40,115 @@ Steps for opening the cloned project:
 * Choose `AnnotatedSentence-Py` file
 * Select open as project option
 * Couple of seconds, dependencies will be downloaded. 
+
+Detailed Description
+============
+
++ [AnnotatedCorpus](#annotatedcorpus)
++ [AnnotatedSentence](#annotatedsentence)
++ [AnnotatedWord](#annotatedword)
++ [Automatic Annotation](#automatic-annotation)
+
+
+## AnnotatedCorpus
+
+To load the annotated corpus:
+
+	AnnotatedCorpus(self, folder: str, pattern: str = None)
+	a = AnnotatedCorpus("/Turkish-Phrase", ".train")
+	b = AnnotatedCorpus("/Turkish-Phrase")
+
+To access all the sentences in a AnnotatedCorpus:
+
+	for i in range(a.sentenceCount()):
+		annotatedSentence = a.getSentence(i)
+		....
+
+## AnnotatedSentence
+
+Bir AnnotatedSentence'daki tüm kelimelere ulaşmak için de
+
+	for j in range(annotatedSentence.wordCount()):
+		annotatedWord = annotatedSentence.getWord(j)
+		...
+
+## AnnotatedWord
+
+An annotated word is kept in AnnotatedWord class. To access the morphological analysis of 
+the annotated word:
+
+	getParse(self) -> MorphologicalParse
+
+Meaning of the annotated word:
+
+	getSemantic(self) -> str
+
+NER annotation of the annotated word:
+
+	getNamedEntityType(self) -> NamedEntityType
+
+Shallow parse tag of the annotated word (e.g., subject, indirect object):
+
+	getShallowParse(self) -> str
+
+Dependency annotation of the annotated word:
+
+	getUniversalDependency(self) -> UniversalDependencyRelation
+	
+## Automatic Annotation
+
+To detect predicates of a sentence automatically
+
+	TurkishSentenceAutoPredicate(self, framesetList: FramesetList)
+
+this class is used. For example, with
+
+	a = TurkishSentenceAutoPredicate(FramesetList())
+	a.autoPredicate(sentence)
+
+the predicates of the sentence "sentence" are annotated automatically.
+
+To detect arguments of a sentence automatically
+
+	TurkishSentenceAutoArgument()
+
+this class is used. For example, with
+
+	a = TurkishSentenceAutoArgument()
+	a.autoArgument(sentence)
+
+arguments of the sentence "sentence" are annotated automatically.
+
+To disambiguate the morphological ambiguity in a sentence automatically
+
+        TurkishSentenceAutoDisambiguator(RootWordStatistics rootWordStatistics)
+        TurkishSentenceAutoDisambiguator(FsmMorphologicalAnalyzer fsm, RootWordStatistics rootWordStatistics)
+
+this class is used. For example, with
+
+        a = TurkishSentenceAutoDisambiguator(RootWordStatistics())
+        a.autoDisambiguate(sentence)
+
+morphological disambugiation of the sentence "sentence" is done automatically.
+
+To make a named entity recognition in a sentence
+
+	TurkishSentenceAutoNER()
+
+this class is used. For example, with
+
+	a = TurkishSentenceAutoNER()
+	a.autoNER(sentence)
+
+named entity recognition in the sentence "sentence" is done automatically.
+
+To make a semantic annotation in a sentence
+
+	TurkishSentenceAutoSemantic()
+
+this class is used. For example, with
+
+	a = TurkishSentenceAutoSemantic()
+	a.autoSemantic(sentence)
+
+semantic annotation of the sentence "sentence" is done automatically.
