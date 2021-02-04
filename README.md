@@ -1,7 +1,7 @@
 For Developers
 ============
 
-You can also see [Java](https://github.com/starlangsoftware/AnnotatedSentence), [C++](https://github.com/starlangsoftware/AnnotatedSentence-CPP), or [C#](https://github.com/starlangsoftware/AnnotatedSentence-CS) repository.
+You can also see [Cython](https://github.com/starlangsoftware/AnnotatedSentence-Cy), [Java](https://github.com/starlangsoftware/AnnotatedSentence), [C++](https://github.com/starlangsoftware/AnnotatedSentence-CPP), or [C#](https://github.com/starlangsoftware/AnnotatedSentence-CS) repository.
 
 ## Requirements
 
