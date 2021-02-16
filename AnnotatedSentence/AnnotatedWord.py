@@ -61,7 +61,7 @@ class AnnotatedWord(Word):
                     self.__metamorphicParse = MetamorphicParse(layerValue)
                 elif layerType == "namedEntity":
                     self.__namedEntityType = NamedEntityType.getNamedEntityType(layerValue)
-                elif layerType == "propbank":
+                elif layerType == "propBank":
                     self.__argument = Argument(layerValue)
                 elif layerType == "framenet":
                     self.__frameElement = FrameElement(layerValue)

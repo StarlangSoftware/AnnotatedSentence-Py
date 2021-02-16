@@ -2,12 +2,12 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.22',
+    version='1.0.23',
     packages=['AnnotatedSentence'],
     url='https://github.com/olcaytaner/AnnotatedSentence-Py',
     license='',
     author='olcaytaner',
     author_email='olcaytaner@isikun.edu.tr',
     description='Annotated Sentence Processing Library',
-    install_requires=['NlpToolkit-WordNet', 'NlpToolkit-NamedEntityRecognition', 'NlpToolkit-PropBank', 'NlpToolkit-DependencyParser']
+    install_requires=['NlpToolkit-WordNet', 'NlpToolkit-NamedEntityRecognition', 'NlpToolkit-PropBank', 'NlpToolkit-DependencyParser', 'NlpToolkit-FrameNet']
 )
