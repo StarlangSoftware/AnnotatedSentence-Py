@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.25',
+    version='1.0.26',
     packages=['AnnotatedSentence'],
     url='https://github.com/olcaytaner/AnnotatedSentence-Py',
     license='',
