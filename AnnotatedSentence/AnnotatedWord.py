@@ -10,6 +10,7 @@ from NamedEntityRecognition.Gazetteer import Gazetteer
 from NamedEntityRecognition.NamedEntityType import NamedEntityType
 from NamedEntityRecognition.Slot import Slot
 from PropBank.Argument import Argument
+from SentiNet.PolarityType import PolarityType
 
 import re
 
@@ -26,6 +27,7 @@ class AnnotatedWord(Word):
     __shallowParse: str
     __universalDependency: UniversalDependencyRelation
     __slot: Slot
+    __polarity: PolarityType
 
 
     def __init__(self, word: str, layerType=None):
@@ -47,6 +49,7 @@ class AnnotatedWord(Word):
         self.__shallowParse = None
         self.__universalDependency = None
         self.__slot = None
+        self.__polarity = None
         if layerType is None:
             splitLayers = re.compile("[{}]").split(word)
             for layer in splitLayers:
@@ -75,6 +78,8 @@ class AnnotatedWord(Word):
                     self.__semantic = layerValue
                 elif layerType == "slot":
                     self.__slot = Slot(layerValue)
+                elif layerType == "polarity":
+                    self.setPolarity(layerValue)
                 elif layerType == "universalDependency":
                     values = layerValue.split("$")
                     self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
@@ -121,6 +126,8 @@ class AnnotatedWord(Word):
             result = result + "{slot=" + self.__slot.__str__() + "}"
         if self.__shallowParse is not None:
             result = result + "{shallowParse=" + self.__shallowParse + "}"
+        if self.__polarity is not None:
+            result = result + "{polarity=" + self.getPolarityString() + "}"
         if self.__universalDependency is not None:
             result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + \
                      self.__universalDependency.__str__() + "}"
@@ -164,6 +171,9 @@ class AnnotatedWord(Word):
         elif viewLayerType == ViewLayerType.SLOT:
             if self.__slot is not None:
                 return self.__slot.__str__()
+        elif viewLayerType == ViewLayerType.POLARITY:
+            if self.__polarity is not None:
+                return self.getPolarityString()
         elif viewLayerType == ViewLayerType.DEPENDENCY:
             if self.__universalDependency is not None:
                 return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
@@ -338,6 +348,54 @@ class AnnotatedWord(Word):
             self.__slot = Slot(slot)
         else:
             self.__slot = None
+
+    def getPolarity(self) -> PolarityType:
+        """
+        Returns the polarity layer of the word.
+
+        RETURNS
+        -------
+        PolarityType
+            Polarity tag of the word.
+        """
+        return self.__polarity
+
+    def getPolarityString(self) -> str:
+        """
+        Returns the polarity layer of the word.
+
+        RETURNS
+        -------
+        str
+            Polarity string of the word.
+        """
+        if self.__polarity == PolarityType.POSITIVE:
+            return "positive"
+        elif self.__polarity == PolarityType.NEGATIVE:
+            return "negative"
+        elif self.__polarity == PolarityType.NEUTRAL:
+            return "neutral"
+        else:
+            return "neutral"
+
+    def setPolarity(self, polarity: str):
+        """
+        Sets the polarity layer of the word.
+
+        PARAMETERS
+        ----------
+        polarity : str
+            New polarity tag of the word.
+        """
+        if polarity is not None:
+            if polarity == "positive" or polarity == "pos":
+                self.__polarity = PolarityType.POSITIVE
+            elif polarity == "negative" or polarity == "neg":
+                self.__polarity = PolarityType.NEGATIVE
+            else:
+                self.__polarity = PolarityType.NEUTRAL
+        else:
+            self.__polarity = None
 
     def getShallowParse(self) -> str:
         """

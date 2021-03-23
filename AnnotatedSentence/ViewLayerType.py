@@ -24,3 +24,4 @@ class ViewLayerType(Enum):
     ENGLISH_SEMANTICS = auto()
     FRAMENET = auto()
     SLOT = auto()
+    POLARITY = auto()
