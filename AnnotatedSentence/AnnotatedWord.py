@@ -441,7 +441,10 @@ class AnnotatedWord(Word):
         dependencyType : str
             type of dependency the word is related to.
         """
-        self.__universalDependency = UniversalDependencyRelation(to, dependencyType)
+        if to < 0:
+            self.__universalDependency = None
+        else:
+            self.__universalDependency = UniversalDependencyRelation(to, dependencyType)
 
     def getUniversalDependencyFormat(self, sentenceLength: int) -> str:
         if self.__parse is not None:
