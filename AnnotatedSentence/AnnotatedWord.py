@@ -18,6 +18,17 @@ from AnnotatedSentence.ViewLayerType import ViewLayerType
 
 
 class AnnotatedWord(Word):
+    """
+     * In order to add another layer, do the following:
+     * 1. Select a name for the layer.
+     * 2. Add a new constant to ViewLayerType.
+     * 3. Add private attribute.
+     * 4. Add an if-else to the constructor, where you set the private attribute with the layer name.
+     * 5. Update toString method.
+     * 6. Add initial value to the private attribute in other constructors.
+     * 7. Update getLayerInfo.
+     * 8. Add getter and setter methods.
+    """
     __parse: MorphologicalParse
     __metamorphicParse: MetamorphicParse
     __semantic: str
@@ -28,7 +39,7 @@ class AnnotatedWord(Word):
     __universalDependency: UniversalDependencyRelation
     __slot: Slot
     __polarity: PolarityType
-
+    __ccg: str
 
     def __init__(self, word: str, layerType=None):
         """
@@ -50,6 +61,7 @@ class AnnotatedWord(Word):
         self.__universalDependency = None
         self.__slot = None
         self.__polarity = None
+        self.__ccg = None
         if layerType is None:
             splitLayers = re.compile("[{}]").split(word)
             for layer in splitLayers:
@@ -83,6 +95,8 @@ class AnnotatedWord(Word):
                 elif layerType == "universalDependency":
                     values = layerValue.split("$")
                     self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
+                elif layerType == "ccg":
+                    self.__ccg = layerValue
         elif isinstance(layerType, NamedEntityType):
             super().__init__(word)
             self.__namedEntityType = layerType
@@ -131,6 +145,8 @@ class AnnotatedWord(Word):
         if self.__universalDependency is not None:
             result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + \
                      self.__universalDependency.__str__() + "}"
+        if self.__ccg is not None:
+            result = result + "{ccg=" + self.__ccg + "}"
         return result
 
     def getLayerInfo(self, viewLayerType: ViewLayerType) -> str:
@@ -177,6 +193,8 @@ class AnnotatedWord(Word):
         elif viewLayerType == ViewLayerType.DEPENDENCY:
             if self.__universalDependency is not None:
                 return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
+        elif viewLayerType == ViewLayerType.CCG:
+            return self.__ccg
         else:
             return None
 
@@ -418,6 +436,28 @@ class AnnotatedWord(Word):
             New shallow parse tag of the word.
         """
         self.__shallowParse = parse
+
+    def getCcg(self) -> str:
+        """
+        Returns the ccg layer of the word.
+
+        RETURNS
+        -------
+        str
+            Ccg tag of the word.
+        """
+        return self.__ccg
+
+    def setCcg(self, ccg: str):
+        """
+        Sets the ccg layer of the word.
+
+        PARAMETERS
+        ----------
+        parse : str
+            New ccg tag of the word.
+        """
+        self.__ccg = ccg
 
     def getUniversalDependency(self) -> UniversalDependencyRelation:
         """

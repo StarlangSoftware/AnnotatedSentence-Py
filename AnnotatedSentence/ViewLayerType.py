@@ -25,3 +25,4 @@ class ViewLayerType(Enum):
     FRAMENET = auto()
     SLOT = auto()
     POLARITY = auto()
+    CCG = auto()
