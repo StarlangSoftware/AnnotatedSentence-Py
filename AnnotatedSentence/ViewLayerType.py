@@ -26,3 +26,4 @@ class ViewLayerType(Enum):
     SLOT = auto()
     POLARITY = auto()
     CCG = auto()
+    POS_TAG = auto()

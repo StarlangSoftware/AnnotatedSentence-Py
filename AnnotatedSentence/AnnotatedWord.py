@@ -40,6 +40,7 @@ class AnnotatedWord(Word):
     __slot: Slot
     __polarity: PolarityType
     __ccg: str
+    __posTag: str
 
     def __init__(self, word: str, layerType=None):
         """
@@ -62,6 +63,7 @@ class AnnotatedWord(Word):
         self.__slot = None
         self.__polarity = None
         self.__ccg = None
+        self.__posTag = None
         if layerType is None:
             splitLayers = re.compile("[{}]").split(word)
             for layer in splitLayers:
@@ -97,6 +99,8 @@ class AnnotatedWord(Word):
                     self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
                 elif layerType == "ccg":
                     self.__ccg = layerValue
+                elif layerType == "posTag":
+                    self.__posTag = layerValue
         elif isinstance(layerType, NamedEntityType):
             super().__init__(word)
             self.__namedEntityType = layerType
@@ -147,6 +151,8 @@ class AnnotatedWord(Word):
                      self.__universalDependency.__str__() + "}"
         if self.__ccg is not None:
             result = result + "{ccg=" + self.__ccg + "}"
+        if self.__posTag is not None:
+            result = result + "{posTag=" + self.__posTag + "}"
         return result
 
     def getLayerInfo(self, viewLayerType: ViewLayerType) -> str:
@@ -195,6 +201,8 @@ class AnnotatedWord(Word):
                 return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
         elif viewLayerType == ViewLayerType.CCG:
             return self.__ccg
+        elif viewLayerType == ViewLayerType.POS_TAG:
+            return self.__posTag
         else:
             return None
 
@@ -458,6 +466,28 @@ class AnnotatedWord(Word):
             New ccg tag of the word.
         """
         self.__ccg = ccg
+
+    def getPosTag(self) -> str:
+        """
+        Returns the posTag layer of the word.
+
+        RETURNS
+        -------
+        str
+            Pos tag of the word.
+        """
+        return self.__posTag
+
+    def setPosTag(self, posTag: str):
+        """
+        Sets the posTag layer of the word.
+
+        PARAMETERS
+        ----------
+        posTag : str
+            New pos tag of the word.
+        """
+        self.__posTag = posTag
 
     def getUniversalDependency(self) -> UniversalDependencyRelation:
         """
