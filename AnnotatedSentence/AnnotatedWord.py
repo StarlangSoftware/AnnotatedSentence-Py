@@ -576,7 +576,7 @@ class AnnotatedWord(Word):
         return self.__language
 
     @staticmethod
-    def getLanguageFromString(self, languageString: str) -> Language:
+    def getLanguageFromString(languageString: str) -> Language:
         """
         Converts a language string to language.
 
