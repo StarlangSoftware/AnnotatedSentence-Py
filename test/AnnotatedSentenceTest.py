@@ -73,6 +73,10 @@ class AnnotatedSentenceTest(unittest.TestCase):
         self.assertEquals("bu hakkında önceden düşün gerek . ''", self.sentence8.toStems())
         self.assertEquals("isim göre çeşit göster birkaç kefaret fon reklam yap için devam et .", self.sentence9.toStems())
 
+    def test_ParserEvaluation(self):
+        self.assertEquals(1.0, self.sentence0.compareParses(self.sentence0).getUAS())
+        self.assertEquals(1.0, self.sentence0.compareParses(self.sentence0).getLAS())
+        self.assertEquals(1.0, self.sentence0.compareParses(self.sentence0).getLS())
 
 if __name__ == '__main__':
     unittest.main()

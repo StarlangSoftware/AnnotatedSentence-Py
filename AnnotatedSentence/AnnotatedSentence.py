@@ -1,6 +1,8 @@
+from __future__ import annotations
 from io import TextIOWrapper
 
 from Corpus.Sentence import Sentence
+from DependencyParser.ParserEvaluationScore import ParserEvaluationScore
 from FrameNet.FrameNet import FrameNet
 from MorphologicalAnalysis.FsmMorphologicalAnalyzer import FsmMorphologicalAnalyzer
 from PropBank.FramesetList import FramesetList
@@ -247,6 +249,15 @@ class AnnotatedSentence(Sentence):
             return result
         else:
             return ""
+
+    def compareParses(self, sentence: AnnotatedSentence) -> ParserEvaluationScore:
+        score = ParserEvaluationScore()
+        for i in range(self.wordCount()):
+            relation1 = self.words[i].getUniversalDependency()
+            relation2 = sentence.getWord(i).getUniversalDependency()
+            if relation1 is not None and relation2 is not None:
+                score.add(relation1.compareRelations(relation2))
+        return score
 
     def save(self):
         """

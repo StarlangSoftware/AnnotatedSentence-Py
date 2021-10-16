@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import re
 
@@ -5,6 +7,7 @@ from Corpus.Corpus import Corpus
 
 from AnnotatedSentence.AnnotatedSentence import AnnotatedSentence
 from AnnotatedSentence.AnnotatedWord import AnnotatedWord
+from DependencyParser.ParserEvaluationScore import ParserEvaluationScore
 
 
 class AnnotatedCorpus(Corpus):
@@ -30,6 +33,14 @@ class AnnotatedCorpus(Corpus):
                     f = open(fileName, "r", encoding='utf8')
                     sentence = AnnotatedSentence(f, fileName)
                     self.sentences.append(sentence)
+
+    def compareParses(self, corpus: AnnotatedCorpus) -> ParserEvaluationScore:
+        result = ParserEvaluationScore()
+        for i in range(len(self.sentences)):
+            sentence1 = self.sentences[i]
+            sentence2 = corpus.getSentence(i)
+            result.add(sentence1.compareParses(sentence2))
+        return result
 
     def exportUniversalDependencyFormat(self, outputFileName: str, path: str = None):
         file = open(outputFileName, "w")
