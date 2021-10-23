@@ -35,6 +35,8 @@ class AnnotatedSentence(Sentence):
                 wordArray = line.rstrip().split(" ")
             elif isinstance(self, str):
                 wordArray = fileOrStr.split(" ")
+            elif isinstance(fileOrStr, str):
+                wordArray = fileOrStr.split(" ")
             for word in wordArray:
                 if len(word) > 0:
                     self.words.append(AnnotatedWord(word))
