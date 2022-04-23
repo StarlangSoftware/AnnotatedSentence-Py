@@ -32,6 +32,7 @@ class AnnotatedSentence(Sentence):
                 self.__fileName = fileName
             if isinstance(fileOrStr, TextIOWrapper):
                 line = fileOrStr.readline()
+                fileOrStr.close()
                 wordArray = line.rstrip().split(" ")
             elif isinstance(fileOrStr, str):
                 wordArray = fileOrStr.split(" ")
