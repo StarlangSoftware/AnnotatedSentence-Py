@@ -31,20 +31,22 @@ class AnnotatedWord(Word):
      * 8. Add getter and setter methods.
     """
     __parse: MorphologicalParse
-    __metamorphicParse: MetamorphicParse
+    __metamorphic_parse: MetamorphicParse
     __semantic: str
-    __namedEntityType: NamedEntityType
+    __named_entity_type: NamedEntityType
     __argument: Argument
-    __frameElement: FrameElement
-    __shallowParse: str
-    __universalDependency: UniversalDependencyRelation
+    __frame_element: FrameElement
+    __shallow_parse: str
+    __universal_dependency: UniversalDependencyRelation
     __slot: Slot
     __polarity: PolarityType
     __ccg: str
-    __posTag: str
+    __pos_tag: str
     __language: Language
 
-    def __init__(self, word: str, layerType=None):
+    def __init__(self,
+                 word: str,
+                 layerType=None):
         """
         Constructor for the AnnotatedWord class. Gets the word with its annotation layers as input and sets the
         corresponding layers.
@@ -55,69 +57,69 @@ class AnnotatedWord(Word):
             Input word with annotation layers
         """
         self.__parse = None
-        self.__metamorphicParse = None
+        self.__metamorphic_parse = None
         self.__semantic = None
-        self.__namedEntityType = None
+        self.__named_entity_type = None
         self.__argument = None
-        self.__frameElement = None
-        self.__shallowParse = None
-        self.__universalDependency = None
+        self.__frame_element = None
+        self.__shallow_parse = None
+        self.__universal_dependency = None
         self.__slot = None
         self.__polarity = None
         self.__ccg = None
-        self.__posTag = None
+        self.__pos_tag = None
         self.__language = Language.TURKISH
         if layerType is None:
-            splitLayers = re.compile("[{}]").split(word)
-            for layer in splitLayers:
+            split_layers = re.compile("[{}]").split(word)
+            for layer in split_layers:
                 if len(layer) == 0:
                     continue
                 if "=" not in layer:
                     self.name = layer
                     continue
                 layerType = layer[:layer.index("=")]
-                layerValue = layer[layer.index("=") + 1:]
+                layer_value = layer[layer.index("=") + 1:]
                 if layerType == "turkish" or layerType == "english" or layerType == "persian":
-                    self.name = layerValue
+                    self.name = layer_value
                     self.__language = AnnotatedWord.getLanguageFromString(layerType)
                 elif layerType == "morphologicalAnalysis":
-                    self.__parse = MorphologicalParse(layerValue)
+                    self.__parse = MorphologicalParse(layer_value)
                 elif layerType == "metaMorphemes":
-                    self.__metamorphicParse = MetamorphicParse(layerValue)
+                    self.__metamorphic_parse = MetamorphicParse(layer_value)
                 elif layerType == "namedEntity":
-                    self.__namedEntityType = NamedEntityType.getNamedEntityType(layerValue)
+                    self.__named_entity_type = NamedEntityType.getNamedEntityType(layer_value)
                 elif layerType == "propbank" or layerType == "propBank":
-                    self.__argument = Argument(layerValue)
+                    self.__argument = Argument(layer_value)
                 elif layerType == "framenet" or layerType == "frameNet":
-                    self.__frameElement = FrameElement(layerValue)
+                    self.__frame_element = FrameElement(layer_value)
                 elif layerType == "shallowParse":
-                    self.__shallowParse = layerValue
+                    self.__shallow_parse = layer_value
                 elif layerType == "semantics":
-                    self.__semantic = layerValue
+                    self.__semantic = layer_value
                 elif layerType == "slot":
-                    self.__slot = Slot(layerValue)
+                    self.__slot = Slot(layer_value)
                 elif layerType == "polarity":
-                    self.setPolarity(layerValue)
+                    self.setPolarity(layer_value)
                 elif layerType == "universalDependency":
-                    values = layerValue.split("$")
-                    self.__universalDependency = UniversalDependencyRelation(int(values[0]), values[1])
+                    values = layer_value.split("$")
+                    self.__universal_dependency = UniversalDependencyRelation(int(values[0]), values[1])
                 elif layerType == "ccg":
-                    self.__ccg = layerValue
+                    self.__ccg = layer_value
                 elif layerType == "posTag":
-                    self.__posTag = layerValue
+                    self.__pos_tag = layer_value
         elif isinstance(layerType, NamedEntityType):
             super().__init__(word)
-            self.__namedEntityType = layerType
+            self.__named_entity_type = layerType
             self.__argument = Argument("NONE")
         elif isinstance(layerType, MorphologicalParse):
             super().__init__(word)
             self.__parse = layerType
-            self.__namedEntityType = NamedEntityType.NONE
+            self.__named_entity_type = NamedEntityType.NONE
             self.__argument = Argument("NONE")
         elif isinstance(layerType, FsmParse):
             super().__init__(word)
             self.__parse = layerType
-            self.__namedEntityType = NamedEntityType.NONE
+            self.__named_entity_type = NamedEntityType.NONE
             self.setMetamorphicParse(layerType.withList())
             self.__argument = Argument("NONE")
 
@@ -140,29 +142,29 @@ class AnnotatedWord(Word):
             result = "{persian=" + self.name + "}"
         if self.__parse is not None:
             result = result + "{morphologicalAnalysis=" + self.__parse.__str__() + "}"
-        if self.__metamorphicParse is not None:
-            result = result + "{metaMorphemes=" + self.__metamorphicParse.__str__() + "}"
+        if self.__metamorphic_parse is not None:
+            result = result + "{metaMorphemes=" + self.__metamorphic_parse.__str__() + "}"
         if self.__semantic is not None:
             result = result + "{semantics=" + self.__semantic + "}"
-        if self.__namedEntityType is not None:
-            result = result + "{namedEntity=" + NamedEntityType.getNamedEntityString(self.__namedEntityType) + "}"
+        if self.__named_entity_type is not None:
+            result = result + "{namedEntity=" + NamedEntityType.getNamedEntityString(self.__named_entity_type) + "}"
         if self.__argument is not None:
             result = result + "{propbank=" + self.__argument.__str__() + "}"
-        if self.__frameElement is not None:
-            result = result + "{framenet=" + self.__frameElement.__str__() + "}"
+        if self.__frame_element is not None:
+            result = result + "{framenet=" + self.__frame_element.__str__() + "}"
         if self.__slot is not None:
             result = result + "{slot=" + self.__slot.__str__() + "}"
-        if self.__shallowParse is not None:
-            result = result + "{shallowParse=" + self.__shallowParse + "}"
+        if self.__shallow_parse is not None:
+            result = result + "{shallowParse=" + self.__shallow_parse + "}"
         if self.__polarity is not None:
             result = result + "{polarity=" + self.getPolarityString() + "}"
-        if self.__universalDependency is not None:
-            result = result + "{universalDependency=" + self.__universalDependency.to().__str__() + "$" + \
-                     self.__universalDependency.__str__() + "}"
+        if self.__universal_dependency is not None:
+            result = result + "{universalDependency=" + self.__universal_dependency.to().__str__() + "$" + \
+                     self.__universal_dependency.__str__() + "}"
         if self.__ccg is not None:
             result = result + "{ccg=" + self.__ccg + "}"
-        if self.__posTag is not None:
-            result = result + "{posTag=" + self.__posTag + "}"
+        if self.__pos_tag is not None:
+            result = result + "{posTag=" + self.__pos_tag + "}"
         return result
 
     def getLayerInfo(self, viewLayerType: ViewLayerType) -> str:
@@ -183,23 +185,23 @@ class AnnotatedWord(Word):
             if self.__parse is not None:
                 return self.__parse.__str__()
         elif viewLayerType == ViewLayerType.META_MORPHEME:
-            if self.__metamorphicParse is not None:
-                return self.__metamorphicParse.__str__()
+            if self.__metamorphic_parse is not None:
+                return self.__metamorphic_parse.__str__()
         elif viewLayerType == ViewLayerType.SEMANTICS:
             return self.__semantic
         elif viewLayerType == ViewLayerType.NER:
-            if self.__namedEntityType is not None:
-                return self.__namedEntityType.__str__()
+            if self.__named_entity_type is not None:
+                return self.__named_entity_type.__str__()
         elif viewLayerType == ViewLayerType.SHALLOW_PARSE:
-            return self.__shallowParse
+            return self.__shallow_parse
         elif viewLayerType == ViewLayerType.TURKISH_WORD:
             return self.name
         elif viewLayerType == ViewLayerType.PROPBANK:
             if self.__argument is not None:
                 return self.__argument.__str__()
         elif viewLayerType == ViewLayerType.FRAMENET:
-            if self.__frameElement is not None:
-                return self.__frameElement.__str__()
+            if self.__frame_element is not None:
+                return self.__frame_element.__str__()
         elif viewLayerType == ViewLayerType.SLOT:
             if self.__slot is not None:
                 return self.__slot.__str__()
@@ -207,12 +209,12 @@ class AnnotatedWord(Word):
             if self.__polarity is not None:
                 return self.getPolarityString()
         elif viewLayerType == ViewLayerType.DEPENDENCY:
-            if self.__universalDependency is not None:
-                return self.__universalDependency.to().__str__() + "$" + self.__universalDependency.__str__()
+            if self.__universal_dependency is not None:
+                return self.__universal_dependency.to().__str__() + "$" + self.__universal_dependency.__str__()
         elif viewLayerType == ViewLayerType.CCG:
             return self.__ccg
         elif viewLayerType == ViewLayerType.POS_TAG:
-            return self.__posTag
+            return self.__pos_tag
         else:
             return None
 
@@ -250,7 +252,7 @@ class AnnotatedWord(Word):
         MetamorphicParse
             The metamorphic parse of the word.
         """
-        return self.__metamorphicParse
+        return self.__metamorphic_parse
 
     def setMetamorphicParse(self, parseString: str):
         """
@@ -261,7 +263,7 @@ class AnnotatedWord(Word):
         parseString : str
             The new metamorphic parse of the word in string form.
         """
-        self.__metamorphicParse = MetamorphicParse(parseString)
+        self.__metamorphic_parse = MetamorphicParse(parseString)
 
     def getSemantic(self) -> str:
         """
@@ -294,7 +296,7 @@ class AnnotatedWord(Word):
         NamedEntityType
             Named entity tag of the word.
         """
-        return self.__namedEntityType
+        return self.__named_entity_type
 
     def setNamedEntityType(self, namedEntity: str):
         """
@@ -306,9 +308,9 @@ class AnnotatedWord(Word):
             New named entity tag of the word.
         """
         if namedEntity is not None:
-            self.__namedEntityType = NamedEntityType.getNamedEntityType(namedEntity)
+            self.__named_entity_type = NamedEntityType.getNamedEntityType(namedEntity)
         else:
-            self.__namedEntityType = None
+            self.__named_entity_type = None
 
     def getArgument(self) -> Argument:
         """
@@ -344,7 +346,7 @@ class AnnotatedWord(Word):
         FrameElement
             Framenet tag of the word.
         """
-        return self.__frameElement
+        return self.__frame_element
 
     def setFrameElement(self, frameElement: str):
         """
@@ -356,9 +358,9 @@ class AnnotatedWord(Word):
             New framenet tag of the word.
         """
         if frameElement is not None:
-            self.__frameElement = FrameElement(frameElement)
+            self.__frame_element = FrameElement(frameElement)
         else:
-            self.__frameElement = None
+            self.__frame_element = None
 
     def getSlot(self) -> Slot:
         """
@@ -442,7 +444,7 @@ class AnnotatedWord(Word):
         str
             Shallow parse tag of the word.
         """
-        return self.__shallowParse
+        return self.__shallow_parse
 
     def setShallowParse(self, parse: str):
         """
@@ -453,7 +455,7 @@ class AnnotatedWord(Word):
         parse : str
             New shallow parse tag of the word.
         """
-        self.__shallowParse = parse
+        self.__shallow_parse = parse
 
     def getCcg(self) -> str:
         """
@@ -486,7 +488,7 @@ class AnnotatedWord(Word):
         str
             Pos tag of the word.
         """
-        return self.__posTag
+        return self.__pos_tag
 
     def setPosTag(self, posTag: str):
         """
@@ -497,7 +499,7 @@ class AnnotatedWord(Word):
         posTag : str
             New pos tag of the word.
         """
-        self.__posTag = posTag
+        self.__pos_tag = posTag
 
     def getUniversalDependency(self) -> UniversalDependencyRelation:
         """
@@ -508,7 +510,7 @@ class AnnotatedWord(Word):
         UniversalDependencyRelation
             Universal dependency relation of the word.
         """
-        return self.__universalDependency
+        return self.__universal_dependency
 
     def setUniversalDependency(self, to: int, dependencyType: str):
         """
@@ -522,9 +524,9 @@ class AnnotatedWord(Word):
             type of dependency the word is related to.
         """
         if to < 0:
-            self.__universalDependency = None
+            self.__universal_dependency = None
         else:
-            self.__universalDependency = UniversalDependencyRelation(to, dependencyType)
+            self.__universal_dependency = UniversalDependencyRelation(to, dependencyType)
 
     def getUniversalDependencyFormat(self, sentenceLength: int) -> str:
         if self.__parse is not None:
@@ -543,9 +545,9 @@ class AnnotatedWord(Word):
                         result += "|"
                     result += feature
             result += "\t"
-            if self.__universalDependency is not None and self.__universalDependency.to() <= sentenceLength:
-                result += self.__universalDependency.to().__str__() + "\t" + \
-                          self.__universalDependency.__str__().lower() + "\t"
+            if self.__universal_dependency is not None and self.__universal_dependency.to() <= sentenceLength:
+                result += self.__universal_dependency.to().__str__() + "\t" + \
+                          self.__universal_dependency.__str__().lower() + "\t"
             else:
                 result += "_\t_\t"
             result += "_\t_"
@@ -559,10 +561,10 @@ class AnnotatedWord(Word):
         return self.name
 
     def checkGazetteer(self, gazetteer: Gazetteer):
-        wordLowercase = self.name.lower()
-        if gazetteer.contains(wordLowercase) and self.__parse.containsTag(MorphologicalTag.PROPERNOUN):
+        word_lower_case = self.name.lower()
+        if gazetteer.contains(word_lower_case) and self.__parse.containsTag(MorphologicalTag.PROPERNOUN):
             self.setNamedEntityType(gazetteer.getName())
-        if "'" in wordLowercase and gazetteer.contains(wordLowercase[:wordLowercase.index("'")]) and \
+        if "'" in word_lower_case and gazetteer.contains(word_lower_case[:word_lower_case.index("'")]) and \
                 self.__parse.containsTag(MorphologicalTag.PROPERNOUN):
             self.setNamedEntityType(gazetteer.getName())
 
