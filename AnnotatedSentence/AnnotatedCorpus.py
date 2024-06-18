@@ -37,6 +37,12 @@ class AnnotatedCorpus(Corpus):
                     self.sentences.append(sentence)
 
     def compareParses(self, corpus: AnnotatedCorpus) -> ParserEvaluationScore:
+        """
+        Compares the corpus with the given corpus and returns a parser evaluation score for this comparison. The result
+        is calculated by summing up the parser evaluation scores of sentence by sentence dependency relation comparisons.
+        :param corpus: Corpus to be compared.
+        :return: A parser evaluation score object.
+        """
         result = ParserEvaluationScore()
         for i in range(len(self.sentences)):
             sentence1 = self.sentences[i]
@@ -47,6 +53,13 @@ class AnnotatedCorpus(Corpus):
     def exportUniversalDependencyFormat(self,
                                         outputFileName: str,
                                         path: str = None):
+        """
+        Exports the annotated corpus as a UD file in connlu format. Every sentence is converted into connlu format and
+        appended to the output file. Multiple paths are possible in the annotated corpus. This method outputs the
+        sentences in the given path.
+        :param outputFileName: Output file name in connlu format.
+        :param path: Current path for the part of the annotated corpus.
+        """
         file = open(outputFileName, "w")
         for i in range(self.sentenceCount()):
             sentence = self.getSentence(i)

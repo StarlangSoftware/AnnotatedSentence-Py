@@ -529,6 +529,12 @@ class AnnotatedWord(Word):
             self.__universal_dependency = UniversalDependencyRelation(to, dependencyType)
 
     def getUniversalDependencyFormat(self, sentenceLength: int) -> str:
+        """
+        Returns the connlu format string for this word. Adds surface form, root, universal pos tag, features, and
+        universal dependency information.
+        :param sentenceLength: Number of words in the sentence.
+        :return: The connlu format string for this word.
+        """
         if self.__parse is not None:
             uPos = self.__parse.getUniversalDependencyPos()
             result = self.name + "\t" + self.__parse.getWord().getName() + "\t" + \
@@ -561,6 +567,10 @@ class AnnotatedWord(Word):
         return self.name
 
     def checkGazetteer(self, gazetteer: Gazetteer):
+        """
+        Checks the gazetteer and sets the named entity tag accordingly.
+        :param gazetteer: Gazetteer used to set named entity tag.
+        """
         word_lower_case = self.name.lower()
         if gazetteer.contains(word_lower_case) and self.__parse.containsTag(MorphologicalTag.PROPERNOUN):
             self.setNamedEntityType(gazetteer.getName())
