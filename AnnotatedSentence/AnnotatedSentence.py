@@ -81,8 +81,26 @@ class AnnotatedSentence(Sentence):
         """
         for word in self.words:
             if isinstance(word, AnnotatedWord):
-                if word.getArgument() is not None and word.getArgument().getArgumentType() == "PREDICATE":
-                    return True
+                if word.getArgumentList() is not None:
+                    if word.getArgumentList().containsPredicate():
+                        return True
+        return False
+
+    def containsFramePredicate(self) -> bool:
+        """
+        The method checks all words in the sentence and returns true if at least one of the words is annotated with
+        PREDICATE tag.
+
+        RETURNS
+        -------
+        bool
+            True if at least one of the words is annotated with PREDICATE tag; False otherwise.
+        """
+        for word in self.words:
+            if isinstance(word, AnnotatedWord):
+                if word.getFrameElementList() is not None:
+                    if word.getFrameElementList().containsPredicate():
+                        return True
         return False
 
     def updateConnectedPredicate(self,
@@ -98,15 +116,16 @@ class AnnotatedSentence(Sentence):
         modified = False
         for word in self.words:
             if isinstance(word, AnnotatedWord):
-                if word.getArgument() is not None and word.getArgument().getId() is not None and \
-                        word.getArgument().getId() == previousId:
-                    word.setArgument(word.getArgument().getArgumentType() + "$" + currentId)
-                    modified = True
-                if word.getFrameElement() is not None and word.getFrameElement().getId() is not None and \
-                    word.getFrameElement().getId() == previousId:
-                    word.setFrameElement(word.getFrameElement().getFrameElementType() + "$" + \
-                                         word.getFrameElement().getFrame() + "$" + currentId)
-                    modified = True
+                argument_list = word.getArgumentList()
+                if argument_list is not None:
+                    if argument_list.containsPredicateWithId(previousId):
+                        argument_list.updateConnectedId(previousId, currentId)
+                        modified = True
+                frame_element_list = word.getFrameElementList()
+                if frame_element_list is not None:
+                    if frame_element_list.containsPredicateWithId(previousId):
+                        frame_element_list.updateConnectedId(previousId, currentId)
+                        modified = True
         return modified
 
     def predicateCandidates(self, framesetList: FramesetList) -> list:
