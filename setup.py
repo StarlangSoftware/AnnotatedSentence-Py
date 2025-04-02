@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name='NlpToolkit-AnnotatedSentence',
-    version='1.0.39',
+    version='1.0.40',
     packages=['AnnotatedSentence'],
     url='https://github.com/olcaytaner/AnnotatedSentence-Py',
     license='',
