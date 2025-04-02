@@ -331,9 +331,9 @@ class AnnotatedWord(Word):
             New semantic role tag of the word.
         """
         if argumentList is not None:
-            self.__argument = ArgumentList(argumentList)
+            self.__argument_list = ArgumentList(argumentList)
         else:
-            self.__argument = None
+            self.__argument_list = None
 
     def getFrameElementList(self) -> FrameElementList:
         """
